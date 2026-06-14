@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Registration Form</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#e9f0f4;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+}
+
+.form-container{
+    background:#F4C2C2;
+    width:400px;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 8px 25px rgba(0,0,0,0.2);
+}
+
+h2{
+    text-align:center;
+    margin-bottom:20px;
+    color:#333;
+}
+
+label{
+    display:block;
+    margin-top:12px;
+    font-weight:bold;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    padding:10px;
+    margin-top:5px;
+    border:1px solid #999;
+    border-radius:5px;
+}
+
+textarea{
+    resize:none;
+}
+
+.buttons{
+    display:flex;
+    gap:10px;
+    margin-top:18px;
+}
+
+button{
+    flex:1;
+    padding:10px;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.register-btn{
+    background:#4ecdc4;
+    color:black;
+}
+
+.reset-btn{
+    background:#ff4d4d;
+    color:white;
+}
+
+button:hover{
+    opacity:0.9;
+}
+
+#message{
+    margin-top:15px;
+    text-align:center;
+    font-weight:bold;
+    color:green;
+}
+</style>
+</head>
+
+<body>
+
+<div class="form-container">
+
+    <h2>Student Registration Form</h2>
+
+    <form id="regForm">
+
+        <label>Full Name</label>
+        <input type="text" id="name" required>
+
+        <label>Email</label>
+        <input type="email" id="email" required>
+
+        <label>Password</label>
+        <input type="password" id="password" required>
+
+        <label>Date of Birth</label>
+        <input type="date" id="dob">
+
+        <label>Department</label>
+        <select id="department">
+            <option value="">-- Select Department --</option>
+            <option>CSE</option>
+            <option>IT</option>
+            <option>ECE</option>
+            <option>EEE</option>
+            <option>MECH</option>
+        </select>
+
+        <label>Address</label>
+        <textarea id="address" rows="4"></textarea>
+
+        <div class="buttons">
+            <button type="submit" class="register-btn">
+                Register
+            </button>
+
+            <button type="button" class="reset-btn" id="resetBtn">
+                Reset
+            </button>
+        </div>
+
+    </form>
+
+    <div id="message"></div>
+
+</div>
+
+<script>
+const regForm = document.getElementById("regForm");
+const message = document.getElementById("message");
+
+regForm.addEventListener("submit", function(e){
+    e.preventDefault();
+
+    let name = document.getElementById("name").value.trim();
+    let email = document.getElementById("email").value.trim();
+    let password = document.getElementById("password").value.trim();
+
+    if(name === "" || email === "" || password === ""){
+        message.style.color = "red";
+        message.textContent = "Please fill all required fields!";
+        return;
+    }
+
+    let students =
+        JSON.parse(localStorage.getItem("students")) || [];
+
+    students.push({
+        name: name,
+        email: email,
+        dob: document.getElementById("dob").value,
+        department: document.getElementById("department").value,
+        address: document.getElementById("address").value
+    });
+
+    localStorage.setItem(
+        "students",
+        JSON.stringify(students)
+    );
+
+    message.style.color = "green";
+    message.textContent = "Registration Successful!";
+
+    regForm.reset();
+});
+
+document.getElementById("resetBtn").addEventListener("click", function(){
+    regForm.reset();
+    message.textContent = "";
+});
+</script>
+
+</body>
+</html>
