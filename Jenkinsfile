@@ -12,7 +12,7 @@ pipeline {
         stage('Run Container') {
             steps {
                 sh 'docker rm -f student-registration-container || true'
-                sh 'docker run -d --restart unless-stopped --name student-registration-container -p 8081:80 student-registration'
+                sh 'docker run -d --restart unless-stopped --name student-registration-container -p 8083:80 student-registration'
             }
         }
     }
